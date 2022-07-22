@@ -3,9 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_app_credicxo/app_theme.dart';
 import 'package:music_app_credicxo/repository/track_list_repository.dart';
 import 'package:music_app_credicxo/screens/home_screen.dart';
+import 'package:music_app_credicxo/services/local_database_service.dart';
 
-void main() {
+LocalStorage localStorage = LocalStorage();
+
+void main() async {
   runApp(const MyApp());
+  await localStorage.getObjectStore();
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +24,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: AppTheme.scaffoldBackgroundColor,
         ),
-        home: HomeScreen(),
+        home: const HomeScreen(),
       ),
     );
   }

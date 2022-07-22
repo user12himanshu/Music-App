@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_app_credicxo/app_theme.dart';
+import 'package:music_app_credicxo/screens/bookmark_page.dart';
 
 import '../bloc/events/track_list_event.dart';
 import '../bloc/states/track_list_state.dart';
@@ -23,6 +24,16 @@ class HomeScreen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: AppTheme.scaffoldBackgroundColor,
             elevation: 0,
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return BookMarkPage();
+                    }));
+                  },
+                  icon: Icon(Icons.bookmark))
+            ],
             title: Text(
               'Trending',
               style: TextStyle(
@@ -43,7 +54,16 @@ class HomeScreen extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) {
                       var track = trackList[index].track!;
                       return index != 1
-                          ? MusicCardContainer(track: track)
+                          ? MusicCardContainer(
+                              albumName: track.albumName!,
+                              genre: track.primaryGenres!.musicGenreList!.first
+                                  .musicGenre!.musicGenreName!,
+                              lyricsAvailable: track.hasLyrics!,
+                              trackName: track.trackName!,
+                              rating: track.trackRating!,
+                              trackId: track.trackId!,
+                              artistName: track.artistName!,
+                            )
                           : Container();
                     },
                   );

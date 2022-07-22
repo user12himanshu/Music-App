@@ -1,25 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:music_app_credicxo/main.dart';
 
 import '../app_theme.dart';
-import '../models/track_model.dart';
 import '../screens/track_details_screen.dart';
 import 'glass_containers/tile_glass_container.dart';
 
 class MusicCardContainer extends StatelessWidget {
   const MusicCardContainer({
     Key? key,
-    required this.track,
+    required this.trackName,
+    required this.artistName,
+    required this.albumName,
+    required this.genre,
+    required this.lyricsAvailable,
+    required this.rating,
+    required this.trackId,
   }) : super(key: key);
 
-  final Track track;
+  final String trackName;
+  final String artistName;
+  final String albumName;
+  final String genre;
+  final int lyricsAvailable;
+  final int rating;
+  final int trackId;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return TrackDetailsScreen(trackId: track.trackId!);
-        }));
+        if (localStorage.isTrackExist(trackId)) {
+        } else {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return TrackDetailsScreen(trackId: trackId!);
+          }));
+        }
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
@@ -46,7 +61,7 @@ class MusicCardContainer extends StatelessWidget {
                     Container(
                       width: 150,
                       child: Text(
-                        track.trackName!,
+                        trackName,
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -54,14 +69,14 @@ class MusicCardContainer extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      track.artistName!,
+                      artistName,
                       textAlign: TextAlign.start,
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     Container(
                       width: 150,
                       child: Text(
-                        track.albumName!,
+                        albumName,
                         textAlign: TextAlign.start,
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
@@ -73,8 +88,7 @@ class MusicCardContainer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      track.primaryGenres!.musicGenreList![0].musicGenre!
-                          .musicGenreName!,
+                      genre,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           color: AppTheme.secondryColor,
@@ -83,7 +97,7 @@ class MusicCardContainer extends StatelessWidget {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      track.hasLyrics == 1
+                      lyricsAvailable == 1
                           ? 'Lyrics\nAvailable'
                           : 'Lyrics\nUnavailable',
                       textAlign: TextAlign.center,
@@ -91,7 +105,7 @@ class MusicCardContainer extends StatelessWidget {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      "${track.trackRating.toString()}/100",
+                      "${rating.toString()}/100",
                       textAlign: TextAlign.start,
                       style: TextStyle(color: Colors.white),
                     ),

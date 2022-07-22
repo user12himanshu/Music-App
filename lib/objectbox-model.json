@@ -1,0 +1,72 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:1675177939729441810",
+      "lastPropertyId": "9:5049388562049476591",
+      "name": "LocalTrackDetails",
+      "properties": [
+        {
+          "id": "1:2314782481788321869",
+          "name": "trackId",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:342032649410917979",
+          "name": "rating",
+          "type": 6
+        },
+        {
+          "id": "3:1287231093873827632",
+          "name": "trackName",
+          "type": 9
+        },
+        {
+          "id": "4:4287342298175005405",
+          "name": "albumName",
+          "type": 9
+        },
+        {
+          "id": "5:8846637097454935560",
+          "name": "artistName",
+          "type": 9
+        },
+        {
+          "id": "6:7544461185842825843",
+          "name": "genre",
+          "type": 9
+        },
+        {
+          "id": "7:5857607153863145699",
+          "name": "lyricsBody",
+          "type": 9
+        },
+        {
+          "id": "8:974325663200064241",
+          "name": "hasLyrics",
+          "type": 1
+        },
+        {
+          "id": "9:5049388562049476591",
+          "name": "isExplicit",
+          "type": 1
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:1675177939729441810",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

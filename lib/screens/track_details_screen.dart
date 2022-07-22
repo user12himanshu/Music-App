@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:music_app_credicxo/app_theme.dart';
+import 'package:music_app_credicxo/main.dart';
+import 'package:music_app_credicxo/models/track_details.dart';
 import 'package:music_app_credicxo/widgets/property_heading.dart';
 import 'package:music_app_credicxo/widgets/property_text.dart';
 
@@ -22,6 +25,11 @@ class TrackDetailsScreen extends StatelessWidget {
       create: (context) => TrackDetailsRepository(),
       child: SafeArea(
         child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: AppTheme.scaffoldBackgroundColor,
+            elevation: 0,
+            title: Text('Track Details'),
+          ),
           body: BlocProvider(
             create: (context) => TrackDetailsBloc(
                 RepositoryProvider.of<TrackDetailsRepository>(context), trackId)
@@ -43,29 +51,47 @@ class TrackDetailsScreen extends StatelessWidget {
                           child: DetailsGlassContainer(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Column(
+                              child: Stack(
+                                alignment: Alignment.center,
                                 children: [
-                                  const PropertyHeading(heading: 'Track Name'),
-                                  PropertyText(
-                                    text: trackDetails.trackName!,
+                                  Column(
+                                    children: [
+                                      const PropertyHeading(
+                                          heading: 'Track Name'),
+                                      PropertyText(
+                                        text: trackDetails.trackName!,
+                                      ),
+                                      const PropertyHeading(
+                                          heading: 'Artist Name'),
+                                      PropertyText(
+                                        text: trackDetails.artistName!,
+                                      ),
+                                      const PropertyHeading(
+                                          heading: 'Album Name'),
+                                      PropertyText(
+                                        text: trackDetails.albumName!,
+                                      ),
+                                      const PropertyHeading(
+                                          heading: 'Explicit'),
+                                      PropertyText(
+                                        text: trackDetails.explicit == 1
+                                            ? 'True'
+                                            : 'False',
+                                      ),
+                                      const PropertyHeading(heading: 'Rating'),
+                                      PropertyText(
+                                        text:
+                                            trackDetails.trackRating.toString(),
+                                      ),
+                                    ],
                                   ),
-                                  const PropertyHeading(heading: 'Artist Name'),
-                                  PropertyText(
-                                    text: trackDetails.artistName!,
-                                  ),
-                                  const PropertyHeading(heading: 'Album Name'),
-                                  PropertyText(
-                                    text: trackDetails.albumName!,
-                                  ),
-                                  const PropertyHeading(heading: 'Explicit'),
-                                  PropertyText(
-                                    text: trackDetails.explicit == 1
-                                        ? 'True'
-                                        : 'False',
-                                  ),
-                                  const PropertyHeading(heading: 'Rating'),
-                                  PropertyText(
-                                    text: trackDetails.trackRating.toString(),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: BookmarkIcon(
+                                          trackDetails: trackDetails),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -81,6 +107,48 @@ class TrackDetailsScreen extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class BookmarkIcon extends StatefulWidget {
+  final Track trackDetails;
+
+  const BookmarkIcon({Key? key, required this.trackDetails}) : super(key: key);
+
+  @override
+  State<BookmarkIcon> createState() => _BookmarkIconState();
+}
+
+class _BookmarkIconState extends State<BookmarkIcon> {
+  late bool isTrackExist;
+
+  @override
+  void initState() {
+    isTrackExist = localStorage.isTrackExist(widget.trackDetails.trackId!);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (!isTrackExist) {
+          setState(() {
+            localStorage.putDetailsTrackInDb(widget.trackDetails);
+            isTrackExist = true;
+          });
+        }
+      },
+      child: CircleAvatar(
+        radius: 25,
+        backgroundColor: AppTheme.secondryColor,
+        child: Icon(
+          isTrackExist ? Icons.bookmark_add : Icons.bookmark_add_outlined,
+          color: Colors.white,
+          size: 27,
         ),
       ),
     );
